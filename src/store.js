@@ -9,14 +9,17 @@ const store = new Vuex.Store({
     state: {
         count: 0,
         theme: 0,
+        user: null,
     },
     mutations: {
         setCount: (state, count) => state.count = count,
         toggleTheme: (state) => state.theme = state.theme + 1 > 1 ? 0 : 1,
+        setUser: (state, user) => state.user = user,
     },
     getters: {
         getCount: (state) => state.count,
         getTheme: (state) => state.theme,
+        getUser: (state) => state.user,
     }
 })
 

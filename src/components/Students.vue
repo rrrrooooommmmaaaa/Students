@@ -1,6 +1,7 @@
 <template>
     <div class="bdy" :class="theme === 0 ? 'dark' : 'light'">
-        <button class="toggle" @click="toggleTheme">Переключить тему этой страницы</button><br>
+        <button class="toggle" @click="toggleTheme">Переключить тему этой страницы</button>
+        <button @click="logout()">Выйти</button><br>
         <!-- реализация поиска по ФИО -->
         <div class="form-group">
             <input type="text" id="dynamic-label-input" v-model="search" placeholder="Поиск по ФИО">
@@ -31,7 +32,7 @@
                     <td><input type="checkbox" v-model="item.isDonePr"></td>
                     <td>{{item.group}}</td>
                     <td>{{item.mark}}</td>
-                    <td><img v-bind:src="loadDel" width="80px" style="display: block; margin-left: auto; margin-right: auto;" @click="deleteStudent(item._id)"></td>
+                    <td><img v-bind:src="loadDel" v-show="item.group === getCurrentUser.group" width="80px" style="display: block; margin-left: auto; margin-right: auto;" @click="deleteStudent(item._id)"></td>
                     <td><img v-bind:src="loadPen" width="80px" style="display: block; margin-left: auto; margin-right: auto;" @click="setEditStudent(item)"></td>
                 </template>
                 <template v-else>
@@ -132,7 +133,10 @@ export default {
         },
         theme() {
             return this.$store.getters.getTheme
-        }
+        },
+        getCurrentUser() {
+            return this.$store.getters.getUser
+        },
     },
     methods: {
         deleteStudent(studId) {
@@ -179,6 +183,10 @@ export default {
         },
         toggleTheme() {
             this.$store.commit('toggleTheme');
+        },
+        logout() {
+            this.$store.commit('setUser', null)
+            this.$router.push('/login')
         }
     },
 }
